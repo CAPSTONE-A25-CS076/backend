@@ -1,4 +1,4 @@
-class AuthenticationsHandler {
+class AuthHandler {
   constructor(usersService, tokenManager) {
     this._usersService = usersService;
     this._tokenManager = tokenManager;
@@ -40,6 +40,7 @@ class AuthenticationsHandler {
 
   async getMeHandler(request, h) {
     const { credentials } = request.auth;
+
     return {
       status: "success",
       data: {
@@ -49,4 +50,4 @@ class AuthenticationsHandler {
   }
 }
 
-module.exports = AuthenticationsHandler;
+module.exports = AuthHandler;
