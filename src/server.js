@@ -11,9 +11,9 @@ const init = async () => {
   const usersService = new UsersService();
 
   const server = Hapi.server({
-    port: process.env.PORT,
-    host: process.env.HOST,
-  });
+  port: process.env.PORT || 5000,
+  host: process.env.HOST || "0.0.0.0",});
+
 
   await server.register(Jwt);
 
