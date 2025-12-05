@@ -46,3 +46,6 @@ Response:
     }
   }
 }
+
+3. GET /leads
+   
