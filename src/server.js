@@ -1,18 +1,29 @@
 require("dotenv").config();
 const Hapi = require("@hapi/hapi");
 const Jwt = require("@hapi/jwt");
+const path = require("path");
 
 const UsersService = require("./services/UsersService");
+const LeadsService = require("./services/LeadsService");
 const TokenManager = require("./tokenize/TokenManager");
 const authentications = require("./api/auth");
+const leads = require("./api/leads");
 const ClientError = require("./exceptions/ClientError");
 
 const init = async () => {
   const usersService = new UsersService();
+  const leadsService = new LeadsService();
 
   const server = Hapi.server({
     port: process.env.PORT || 5000,
     host: "0.0.0.0",
+    routes: {
+      cors: {
+        origin: ["*"],
+        additionalHeaders: ["Authorization", "Content-Type"],
+        additionalExposedHeaders: ["Authorization"],
+      },
+    },
   });
 
   await server.register(Jwt);
@@ -63,6 +74,13 @@ const init = async () => {
     options: {
       usersService,
       tokenManager: TokenManager,
+    },
+  });
+
+  await server.register({
+    plugin: leads,
+    options: {
+      leadsService,
     },
   });
 
